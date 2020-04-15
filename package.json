@@ -1,0 +1,29 @@
+{
+  "name": "rest-mockserver",
+  "version": "1.0.0",
+  "description": "A rest mock-server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node start.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilkeryaman/rest-mockserver.git"
+  },
+  "keywords": [
+    "rest-mockserver"
+  ],
+  "author": "Ilker Yaman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ilkeryaman/rest-mockserver/issues"
+  },
+  "homepage": "https://github.com/ilkeryaman/rest-mockserver#readme",
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/register": "^7.9.0"
+  }
+}
