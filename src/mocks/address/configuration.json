@@ -1,0 +1,14 @@
+[
+    {
+        "path": "/v1/address/search/10203040",
+        "method": "get",
+        "httpStatusCode": 200,
+        "file": "./address/data/addressSearchResponse_10203040.json"
+    },
+    {
+        "path": "/v1/address/search/{addressId}",
+        "method": "get",
+        "httpStatusCode": 200,
+        "file": "./address/data/addressSearchResponse_General.json"
+    }
+]

@@ -6,12 +6,52 @@ const getAddress = {
     method: requestMethod.GET,
     function:
         (req, res, route) => {
-            res.status(200).jsonp({});
+            res.status(200).jsonp(
+                {
+                    "message": "Custom route response is returned.",
+                    "street": "Cumhuriyet Street",
+                    "postCode": 34360,
+                    "city": "Istanbul",
+                    "country": "Turkey"
+                });
+        }
+}
+
+const createAddress = {
+    basePath: '/v1/address',
+    path: '/create',
+    method: requestMethod.POST,
+    function:
+        (req, res, route) => {
+            let body = req.body;
+
+            if (!body.street) {
+                res.status(400).jsonp({
+                    code: 'ADR_401',
+                    message: 'street is required to create address.'
+                });
+            } else if (!body.city) {
+                res.status(400).jsonp({
+                    code: 'ADR_402',
+                    message: 'city is required to create address.'
+                });
+            } else if (!body.country) {
+                res.status(400).jsonp({
+                    code: 'ADR_403',
+                    message: 'country is required to create address.'
+                });
+            } else {
+                res.status(201).jsonp({
+                    code: 'ADR_201',
+                    message: 'Address is created successfully.'
+                });
+            }
         }
 }
 
 const addressRoutes = [
-    getAddress
+    getAddress,
+    createAddress
 ];
 
 export default addressRoutes;

@@ -1,5 +1,6 @@
 import customRoutes from './customRoutes';
 import methodListener from '../server/methodListener';
+import responseManager from '../generator/responseManager';
 import requestMethod from './requestMethod';
 import logger from '../log/logger';
 
@@ -14,6 +15,7 @@ class RouteManager {
     prepareRoutes(server) {
         this.addCustomRoutes();
         this.createMethods(server);
+        this.preparePredefinedResponses();
     }
 
     addCustomRoutes() {
@@ -30,8 +32,6 @@ class RouteManager {
                 === false);
             Array.prototype.push.apply(this.routes, customRoutes);
         }
-
-        //this.routes.push(customRoutes);
     }
 
     validateCustomRouteDefinition(customRoute) {
@@ -73,6 +73,10 @@ class RouteManager {
                     break;
             }
         });
+    }
+
+    preparePredefinedResponses(){
+        responseManager.preparePredefinedResponses();
     }
 }
 
