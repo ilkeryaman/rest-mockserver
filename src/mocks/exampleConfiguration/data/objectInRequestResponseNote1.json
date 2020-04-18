@@ -1,0 +1,7 @@
+{
+    "code": "EXC-200",
+    "message": "Configured response is returned.",
+    "data": {
+        "returned": "notes[1] is Second note."
+    }
+}

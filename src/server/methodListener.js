@@ -1,5 +1,30 @@
 import responseManager from '../generator/responseManager';
+import logger from '../log/logger';
 
+function getFunction(req, res, route){
+  logger.info("Default [GET] function is executed.");
+  res.sendStatus(200);
+}
+
+function postFunction(req, res, route){
+  logger.info("Default [POST] function is executed.");
+  res.sendStatus(201);
+}
+
+function deleteFunction(req, res, route){
+  logger.info("Default [DELETE] function is executed.");
+  res.sendStatus(200);
+}
+
+function putFunction(req, res, route){
+  logger.info("Default [PUT] function is executed.");
+  res.sendStatus(202);
+}
+
+function patchFunction(req, res, route){
+  logger.info("Default [PATCH] function is executed.");
+  res.sendStatus(200);
+}
 
 function lookForPredefinedResponse(req, res, route, func) {
   let predefinedResponse = responseManager.getPredefinedResponse(req, route);

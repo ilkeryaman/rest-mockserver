@@ -47,10 +47,6 @@ class RouteManager {
             logger.customRouteMethodError(customRoute);
             process.exit(1);
         }
-        if (!customRoute.function) {
-            logger.customRouteFunctionError(customRoute);
-            process.exit(1);
-        }
     }
 
     createMethods(server) {

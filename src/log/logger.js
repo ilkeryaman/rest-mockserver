@@ -3,14 +3,14 @@ import requestMethod from '../router/requestMethod';
 function info(msg) {
     let brightMagenta = '\u001b[35;1m';
     let reset = '\u001b[0m';
-    console.log(brightMagenta, 'INFO: ' + msg, reset);
+    console.log(brightMagenta, '[INFO]: ' + msg, reset);
 }
 
 function error(msg, route) {
     let red = '\u001b[31m';
     let cyan = '\x1b[36m';
     let reset = '\u001b[0m';
-    console.log(red, 'ERROR: ' + msg);
+    console.log(red, '[ERROR]: ' + msg);
     if (route) {
         console.log(cyan, route);
     }
@@ -37,10 +37,6 @@ function customRouteMethodError(route) {
         requestMethod.PUT.toUpperCase() + '] or [' +
         requestMethod.PATCH.toUpperCase() + '].' +
         'Please check custom route definitions in customRoute.js file.', route);
-}
-
-function customRouteFunctionError(route) {
-    displayError('All custom routes must have \'function\'. Please check custom route definitions in customRoutes.js file.', route);
 }
 
 function displayRouteInformation(routes, port, sslEnabled) {
@@ -84,6 +80,5 @@ export default {
     customRoutePathError,
     customRoutePathNotFoundError,
     customRouteMethodError,
-    customRouteFunctionError,
     displayRouteInformation
 }

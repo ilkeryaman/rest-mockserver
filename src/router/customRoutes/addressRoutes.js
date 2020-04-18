@@ -8,11 +8,14 @@ const getAddress = {
         (req, res, route) => {
             res.status(200).jsonp(
                 {
+                    "code": "ADR_200",
                     "message": "Custom route response is returned.",
-                    "street": "Cumhuriyet Street",
-                    "postCode": 34360,
-                    "city": "Istanbul",
-                    "country": "Turkey"
+                    "data": {
+                        "street": "Cumhuriyet Street",
+                        "postCode": 34360,
+                        "city": "Istanbul",
+                        "country": "Turkey"
+                    }
                 });
         }
 }

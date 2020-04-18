@@ -1,5 +1,6 @@
 const paths = [
-    "./address/configuration.json"
+    "./exampleConfiguration/configuration.json",
+    "./address/configuration.json",
 ]
 
 export default paths;

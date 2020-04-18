@@ -1,0 +1,50 @@
+[
+    {
+        "path": "/v1/exampleConfiguration/arrayInRequest",
+        "method": "post",
+        "httpStatusCode": 201,
+        "paramValuePair": [
+            {
+                "param": "[1]",
+                "value": 16
+            }
+        ],
+        "file": "./exampleConfiguration/data/arrayInRequestResponse.json"
+    },
+    {
+        "path": "/v1/exampleConfiguration/arrayInRequest",
+        "method": "post",
+        "httpStatusCode": 201,
+        "paramValuePair": [
+            {
+                "param": "[1].notes[1]",
+                "value": "Second Note"
+            }
+        ],
+        "file": "./exampleConfiguration/data/arrayInRequestResponseNote2.json"
+    },
+    {
+        "path": "/v1/exampleConfiguration/objectInRequest",
+        "method": "post",
+        "httpStatusCode": 201,
+        "paramValuePair": [
+            {
+                "param": "notes[1]",
+                "value": "Second Note"
+            }
+        ],
+        "file": "./exampleConfiguration/data/objectInRequestResponseNote1.json"
+    },
+    {
+        "path": "/v1/exampleConfiguration/objectInRequest",
+        "method": "post",
+        "httpStatusCode": 201,
+        "paramValuePair": [
+            {
+                "param": "address.building.doors[1].doorNumber",
+                "value": "T53"
+            }
+        ],
+        "file": "./exampleConfiguration/data/objectInRequestResponseDoorT53.json"
+    }
+]

@@ -1,6 +1,10 @@
 {
-    "street": "Kızılay Street",
-    "postCode": 34800,
-    "city": "Ankara",
-    "country": "Turkey"
+    "code": "ADR-200",
+    "message": "Configured response is returned.",
+    "data": {
+        "street": "Kızılay Street",
+        "postCode": 34800,
+        "city": "Ankara",
+        "country": "Turkey"
+    }
 }

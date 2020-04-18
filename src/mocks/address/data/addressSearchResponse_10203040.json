@@ -1,6 +1,10 @@
 {
-    "street": "Mustafa Kemal Atatürk Street",
-    "postCode": 34300,
-    "city": "Istanbul",
-    "country": "Turkey"
+    "code": "ADR-200",
+    "message": "Configured response is returned.",
+    "data": {
+        "street": "Mustafa Kemal Atatürk Street",
+        "postCode": 34300,
+        "city": "Istanbul",
+        "country": "Turkey"
+    }
 }
