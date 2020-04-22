@@ -1,4 +1,4 @@
-import configurationFilePaths from '../mocks/configurationFilePaths';
+import configurationFilePaths from '../../mocks/configurationFilePaths';
 import stringParser from '../parser/stringParser';
 
 let predefinedResponseConfigurations = [];
@@ -7,8 +7,12 @@ function getPredefinedResponseConfigurations() {
     return predefinedResponseConfigurations;
 }
 
+function setPredefinedResponseConfigurations(newPredefinedResponseConfigurations){
+    predefinedResponseConfigurations = newPredefinedResponseConfigurations;
+}
+
 function getMockFileDirectory() {
-    return '../mocks';
+    return '../../mocks';
 }
 
 function fixFolderStructure(filePath) {
@@ -79,11 +83,19 @@ function getPredefinedResponse(req, route) {
 }
 
 function getResponseFromConfigFile(predefinedResponse) {
-    let responseFile = fixFolderStructure(predefinedResponse["file"]);
+    let responseFile = predefinedResponse["file"] ? fixFolderStructure(predefinedResponse["file"]) : undefined;
     if (responseFile) {
         return {
             httpStatusCode: predefinedResponse["httpStatusCode"],
             responseObject: require(getMockFileDirectory() + responseFile)
+        }
+    } else {
+        let responseData = predefinedResponse["responseData"];
+        if (responseData) {
+            return {
+                httpStatusCode: predefinedResponse["httpStatusCode"],
+                responseObject: responseData
+            }
         }
     }
     return null;
@@ -137,5 +149,7 @@ function getParamValueFromRequest(body, param) {
 
 export default {
     preparePredefinedResponses,
-    getPredefinedResponse
+    getPredefinedResponse,
+    getPredefinedResponseConfigurations,
+    setPredefinedResponseConfigurations
 }

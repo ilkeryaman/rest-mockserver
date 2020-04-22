@@ -1,20 +1,16 @@
 import requestMethod from '../router/requestMethod';
+import colorCode from './colorCode';
 
 function info(msg) {
-    let brightMagenta = '\u001b[35;1m';
-    let reset = '\u001b[0m';
-    console.log(brightMagenta, '[INFO]: ' + msg, reset);
+    console.log(colorCode.brightMagenta, '[INFO]: ' + msg, colorCode.reset);
 }
 
 function error(msg, route) {
-    let red = '\u001b[31m';
-    let cyan = '\x1b[36m';
-    let reset = '\u001b[0m';
-    console.log(red, '[ERROR]: ' + msg);
+    console.log(colorCode.red, '[ERROR]: ' + msg);
     if (route) {
-        console.log(cyan, route);
+        console.log(colorCode.cyan, route);
     }
-    console.log(reset, '');
+    console.log(colorCode.reset, '');
 }
 
 function customRouteBasePathError(route) {
@@ -39,38 +35,70 @@ function customRouteMethodError(route) {
         'Please check custom route definitions in customRoute.js file.', route);
 }
 
-function displayRouteInformation(routes, port, sslEnabled) {
-    let yellow = '\x1b[33m';
-    let cyan = '\x1b[36m';
-    let reset = '\u001b[0m';
-    console.log(cyan, 'JSON Server is running on:');
-    console.log(cyan, '=============================== DEFAULT ROUTES ===============================')
-    if (routes.some(route => !route.isCustomRoute)) {
+function displayServerEndpoints(routes, port, sslEnabled) {
+    console.log(colorCode.cyan, 'JSON Server is running on:');
+    console.log(colorCode.cyan, '============================ CONFIGURATION ROUTES ===========================')
+    routes.filter(route => route.isConfigurationRoute).reverse().forEach(route => {
+        displayRouteInformation(route, port, sslEnabled);
+    });
+    console.log('');
 
-        routes.filter(route => !route.isCustomRoute).reverse().forEach(route => {
-            console.log(yellow,
-                '[' + route.method.toUpperCase() + ']'
-                + (route.method === requestMethod.DELETE || route.method === requestMethod.PATCH ? '\t' : '\t\t')
-                + (sslEnabled ? 'https://' : 'http://') + 'localhost:' + port + route.basePath + route.path);
+    console.log(colorCode.cyan, '=============================== DEFAULT ROUTES ==============================')
+    if (routes.some(route => !route.isCustomRoute && !route.isConfigurationRoute)) {
+        routes.filter(route => !route.isCustomRoute && !route.isConfigurationRoute).reverse().forEach(route => {
+            displayRouteInformation(route, port, sslEnabled);
         });
     } else {
-        console.log(cyan, 'No default route is defined.');
+        console.log(colorCode.cyan, 'No default route is defined.');
     }
     console.log('');
 
-    console.log(cyan, '=============================== CUSTOM ROUTES ===============================')
+    console.log(colorCode.cyan, '=============================== CUSTOM ROUTES ===============================')
     if (routes.some(route => route.isCustomRoute)) {
         routes.filter(route => route.isCustomRoute).reverse().forEach(route => {
-            console.log(yellow,
-                '[' + route.method.toUpperCase() + ']'
-                + (route.method === requestMethod.DELETE || route.method === requestMethod.PATCH ? '\t' : '\t\t')
-                + (sslEnabled ? 'https://' : 'http://') + 'localhost:' + port + route.basePath + route.path);
+            displayRouteInformation(route, port, sslEnabled);
         });
     }
     else {
-        console.log(cyan, 'No custom route is defined.');
+        console.log(colorCode.cyan, 'No custom route is defined.');
     }
-    console.log(reset, '');
+    console.log(colorCode.reset, '');
+}
+
+function displayRouteInformation(route, port, sslEnabled) {
+    console.log(colorCode.yellow,
+        '[' + route.method.toUpperCase() + ']'
+        + (route.method === requestMethod.DELETE || route.method === requestMethod.PATCH ? '\t' : '\t\t')
+        + (sslEnabled ? 'https://' : 'http://') + 'localhost:' + port + route.basePath + route.path);
+}
+
+function displayRequestInformation(req, res) {
+    console.log(
+        colorCode.cyan,
+        req.method,
+        req.originalUrl,
+        getColorCodeFromHttpStatusCode(res.statusCode.toString()),
+        res.statusCode.toString(),
+        colorCode.cyan,
+        (res.responseTime.getTime() - req.requestTime.getTime()) + 'ms',
+        colorCode.reset
+    );
+}
+
+function getColorCodeFromHttpStatusCode(httpStatusCode) {
+    let is2XXSeries = httpStatusCode.startsWith(2);
+    let is3XXSeries = httpStatusCode.startsWith(3);
+    let is4XXSeries = httpStatusCode.startsWith(4);
+    let is5XXSeries = httpStatusCode.startsWith(5);
+    if (is2XXSeries || is3XXSeries) {
+        return colorCode.green;
+    } else if (is4XXSeries) {
+        return colorCode.yellow;
+    } else if (is5XXSeries) {
+        return colorCode.red;
+    } else {
+        return colorCode.yellow;
+    }
 }
 
 export default {
@@ -80,5 +108,6 @@ export default {
     customRoutePathError,
     customRoutePathNotFoundError,
     customRouteMethodError,
-    displayRouteInformation
+    displayServerEndpoints,
+    displayRequestInformation
 }

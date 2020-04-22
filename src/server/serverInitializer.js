@@ -19,9 +19,9 @@ class ServerInitializer {
                     cert: fs.readFileSync(configuration.certificateFilePath),
                 },
                 app
-            ).listen(port, () => { logger.displayRouteInformation(routes, port, sslEnabled); });
+            ).listen(port, () => { logger.displayServerEndpoints(routes, port, sslEnabled); });
         } else {
-            app.listen(port, () => { logger.displayRouteInformation(routes, port, sslEnabled); });
+            app.listen(port, () => { logger.displayServerEndpoints(routes, port, sslEnabled); });
         }
     }
 

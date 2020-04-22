@@ -1,3 +1,4 @@
+import configurationRoutes from './configurationRoutes';
 import customRoutes from './customRoutes';
 import methodListener from '../server/methodListener';
 import responseManager from '../generator/responseManager';
@@ -13,9 +14,14 @@ class RouteManager {
     }
 
     prepareRoutes(server) {
+        this.addConfigurationRoutes();
         this.addCustomRoutes();
         this.createMethods(server);
         this.preparePredefinedResponses();
+    }
+
+    addConfigurationRoutes(){
+        Array.prototype.push.apply(this.routes, configurationRoutes);
     }
 
     addCustomRoutes() {
@@ -53,22 +59,26 @@ class RouteManager {
         this.routes.reverse().forEach(route => {
             switch (route.method) {
                 case requestMethod.GET:
-                    methodListener.createGetMethod(server, route, route.isCustomRoute ? route.function : undefined);
+                    methodListener.createGetMethod(server, route, this.getRouteFunction(route));
                     break;
                 case requestMethod.POST:
-                    methodListener.createPostMethod(server, route, route.isCustomRoute ? route.function : undefined);
+                    methodListener.createPostMethod(server, route, this.getRouteFunction(route));
                     break;
                 case requestMethod.DELETE:
-                    methodListener.createDeleteMethod(server, route, route.isCustomRoute ? route.function : undefined);
+                    methodListener.createDeleteMethod(server, route, this.getRouteFunction(route));
                     break;
                 case requestMethod.PUT:
-                    methodListener.createPutMethod(server, route, route.isCustomRoute ? route.function : undefined);
+                    methodListener.createPutMethod(server, route, this.getRouteFunction(route));
                     break;
                 case requestMethod.PATCH:
-                    methodListener.createPatchMethod(server, route, route.isCustomRoute ? route.function : undefined);
+                    methodListener.createPatchMethod(server, route, this.getRouteFunction(route));
                     break;
             }
         });
+    }
+
+    getRouteFunction(route){
+        return route.isCustomRoute || route.isConfigurationRoute ? route.function : undefined;
     }
 
     preparePredefinedResponses(){
