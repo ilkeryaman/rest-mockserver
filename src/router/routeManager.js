@@ -1,8 +1,11 @@
 import configurationRoutes from './configurationRoutes';
 import customRoutes from './customRoutes';
 import methodListener from '../server/methodListener';
+import definitionManager from '../parser/swagger/definition/definitionManager';
+import pathManager from '../parser/swagger/path/pathManager';
 import responseManager from '../generator/responseManager';
 import requestMethod from './requestMethod';
+import fileOperator from '../file/fileOperator';
 import logger from '../log/logger';
 
 class RouteManager {
@@ -15,13 +18,25 @@ class RouteManager {
 
     prepareRoutes(server) {
         this.addConfigurationRoutes();
+        this.addDefaultRoutes();
         this.addCustomRoutes();
         this.createMethods(server);
         this.preparePredefinedResponses();
     }
 
-    addConfigurationRoutes(){
+    addConfigurationRoutes() {
         Array.prototype.push.apply(this.routes, configurationRoutes);
+    }
+
+    addDefaultRoutes() {
+        const mockApiSwaggerFiles = fileOperator.readSwaggerDirectory();
+        mockApiSwaggerFiles.forEach(swaggerFile => {
+            let content = fileOperator.readSwaggerFileContent(swaggerFile);
+            definitionManager.extendDefinitions(swaggerFile, content);
+            pathManager.addPaths(swaggerFile, content);
+            Array.prototype.push.apply(this.routes, pathManager.getPaths()[swaggerFile]);
+        }
+        );
     }
 
     addCustomRoutes() {
@@ -77,11 +92,11 @@ class RouteManager {
         });
     }
 
-    getRouteFunction(route){
+    getRouteFunction(route) {
         return route.isCustomRoute || route.isConfigurationRoute ? route.function : undefined;
     }
 
-    preparePredefinedResponses(){
+    preparePredefinedResponses() {
         responseManager.preparePredefinedResponses();
     }
 }

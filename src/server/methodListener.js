@@ -1,36 +1,112 @@
 import responseManager from '../generator/responseManager';
+import parameterType from '../router/parameterType';
+import responseGenerator from '../generator/responseGenerator';
 import logger from '../log/logger';
 
-function getFunction(req, res, route){
+function getFunction(req, res, route) {
   logger.info("Default [GET] function is executed.");
-  res.sendStatus(200);
+  operationDefault(req, res, route, 200);
 }
 
-function postFunction(req, res, route){
+function postFunction(req, res, route) {
   logger.info("Default [POST] function is executed.");
-  res.sendStatus(201);
+  operationDefault(req, res, route, 201);
 }
 
-function deleteFunction(req, res, route){
+function deleteFunction(req, res, route) {
   logger.info("Default [DELETE] function is executed.");
-  res.sendStatus(200);
+  operationDefault(req, res, route, 200);
 }
 
-function putFunction(req, res, route){
+function putFunction(req, res, route) {
   logger.info("Default [PUT] function is executed.");
-  res.sendStatus(202);
+  operationDefault(req, res, route, 202);
 }
 
-function patchFunction(req, res, route){
+function patchFunction(req, res, route) {
   logger.info("Default [PATCH] function is executed.");
-  res.sendStatus(200);
+  operationDefault(req, res, route, 200);
 }
 
-function interceptorFunction(req, res, route, func){
+function operationDefault(req, res, route, httpStatusCode) {
+  let isValidRequest = validateRequiredParameters(route, req);
+  if (isValidRequest === false) {
+    returnHttpStatusWithCode(res, route, 400);
+  }
+  else {
+    returnHttpStatusWithCode(res, route, httpStatusCode);
+  }
+}
+
+function validateRequiredParameters(route, req) {
+  let isValid = true;
+  let parameters = route.parameters;
+  if (parameters && Array.isArray(parameters) && parameters.length > 0) {
+    for (let i = 0; i < parameters.length; i++) {
+      if (parameters[i]["required"]) {
+        if (!getParameterWithName(req, parameters[i]["in"], parameters[i]["name"])) {
+          if (parameters[i]["in"] === parameterType.formData) {
+            continue;
+          }
+          isValid = false;
+          break;
+        }
+      }
+    }
+  }
+  return isValid;
+}
+
+function getParameterWithName(req, paramType, parameterName) {
+  let parameterValue;
+  if (paramType === parameterType.header) {
+    if (req.headers[parameterName]) {
+      parameterValue = req.headers[parameterName];
+    } else {
+      parameterValue = req.headers[parameterName.toLowerCase()];
+    }
+  } else if (paramType === parameterType.query) {
+    parameterValue = req.query[parameterName];
+  } else if (paramType === parameterType.path) {
+    parameterValue = req.params[parameterName]
+  } else if (paramType === parameterType.body) {
+    if (req.body) {
+      if (parameterName === "body") {
+        let firstParameterKey = Object.keys(req.body)[0];
+        parameterValue = req.body[firstParameterKey];
+      } else {
+        parameterValue = req.body[parameterName];
+      }
+    }
+  }
+  return parameterValue;
+}
+
+function returnHttpStatusWithCode(res, route, statusCode) {
+  if (route.responses) {
+    let responseOfStatusCode = route.responses.find(response => response.code == statusCode);
+    if (responseOfStatusCode) {
+      if (responseOfStatusCode["responseParam"]) {
+        let responseObj = responseGenerator.generate(responseOfStatusCode["responseParam"]);
+        res.status(statusCode).jsonp(responseObj);
+      } else if (responseOfStatusCode["description"]) {
+        res.status(statusCode).send(responseOfStatusCode["description"]);
+      } else {
+        res.sendStatus(statusCode);
+      }
+    } else {
+      res.sendStatus(statusCode);
+    }
+  } else {
+    res.sendStatus(statusCode);
+  }
+}
+
+function interceptorFunction(req, res, route, func) {
   req.requestTime = new Date();
   lookForPredefinedResponse(req, res, route, func);
   res.responseTime = new Date();
-  logger.displayRequestInformation(req, res);  
+  logger.displayRequestInformation(req, res);
 }
 
 function lookForPredefinedResponse(req, res, route, func) {

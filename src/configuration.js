@@ -1,4 +1,7 @@
 const configuration = {
+    createDefinitionsFile: false,
+    createPathsFile: false,
+    createRoutersFile: false,
     sslEnabled: true,
     certificateKeyFilePath: './cert/server.key',
     certificateFilePath: './cert/server.cert',
