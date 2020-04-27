@@ -34,6 +34,7 @@ When mock server started without any new configuration, it will generate an auto
 There are two ways to customize behaviour of an endpoint:
 
 **1) Returning Predefined Response**
+
 Predefined responses can be configured for separate method calls.
 
 For example, lets assume that you are querying the following GET method https://localhost:3000/v2/pet/{petId}, and you need to return some predefined json object defined in file1.json for petId equals 1234, and file2.json for petId equals 9876.
@@ -79,6 +80,7 @@ In above;
 ]
 ```
 **2) Creating Your Custom Business**
+
 If you need a custom response or business, you can get specific result by adding your own custom route definition file (which must be a javascript file) under **src/router/customRoutes** folder.
 
 A custom route definition file consists of one or more custom route(s). 
