@@ -26,6 +26,50 @@ Run following command to start up rest-mockserver on your local:
 ```sh
 npm start
 ```
+## Creating Endpoints from Swagger File
+
+Mock server accepts json-formatted swagger files in specification of OpenAPI_2.0, OpenAPI_3.0.0 and OpenAPI 3.0.1.
+
+Put swagger file to folder **swaggers**.
+
+After restarting mock server, it will automatically open endpoints specified in swagger specification file.
+
+Endpoints and method types (GET, POST, PUT, PATCH, DELETE etc.) will be shown as output like:
+```sh
+ JSON Server is running on:
+ ============================ CONFIGURATION ROUTES ===========================
+ [GET]          https://localhost:3000/configurations
+ [PUT]          https://localhost:3000/configurations
+ [DELETE]       https://localhost:3000/configurations
+
+ =============================== DEFAULT ROUTES ==============================
+ [POST]         https://localhost:3000/v2/pet/{petId}/uploadImage
+ [POST]         https://localhost:3000/v2/pet
+ [PUT]          https://localhost:3000/v2/pet
+ [GET]          https://localhost:3000/v2/pet/findByStatus
+ [GET]          https://localhost:3000/v2/pet/findByTags
+ [GET]          https://localhost:3000/v2/pet/{petId}
+ [POST]         https://localhost:3000/v2/pet/{petId}
+ [DELETE]       https://localhost:3000/v2/pet/{petId}
+ [POST]         https://localhost:3000/v2/store/order
+ [GET]          https://localhost:3000/v2/store/order/{orderId}
+ [DELETE]       https://localhost:3000/v2/store/order/{orderId}
+ [GET]          https://localhost:3000/v2/store/inventory
+ [POST]         https://localhost:3000/v2/user/createWithArray
+ [POST]         https://localhost:3000/v2/user/createWithList
+ [GET]          https://localhost:3000/v2/user/{username}
+ [PUT]          https://localhost:3000/v2/user/{username}
+ [DELETE]       https://localhost:3000/v2/user/{username}
+ [GET]          https://localhost:3000/v2/user/login
+ [GET]          https://localhost:3000/v2/user/logout
+ [POST]         https://localhost:3000/v2/user
+
+ =============================== CUSTOM ROUTES ===============================
+ [GET]          https://localhost:3000/v1/address/search/{addressId}
+ [POST]         https://localhost:3000/v1/address/create
+ [POST]         https://localhost:3000/v1/exampleConfiguration/arrayInRequest
+ [POST]         https://localhost:3000/v1/exampleConfiguration/objectInRequest
+```
 
 ## Customizing Response
 
