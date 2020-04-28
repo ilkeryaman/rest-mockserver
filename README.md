@@ -8,7 +8,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-* Any cli to run required commands,
+* Any CLI to run required commands,
 * Latest stable version of [Node.js](https://nodejs.org/en/).
 
 ### Installing
