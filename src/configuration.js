@@ -2,7 +2,7 @@ const configuration = {
     createDefinitionsFile: false,
     createPathsFile: false,
     createRoutersFile: false,
-    sslEnabled: true,
+    sslEnabled: false,
     certificateKeyFilePath: './cert/server.key',
     certificateFilePath: './cert/server.cert',
     mockFileDirectoryPath: './mocks',
