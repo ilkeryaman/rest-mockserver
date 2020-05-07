@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/ilkeryaman/rest-mockserver#readme",
   "dependencies": {
+    "express":"*",
     "body-parser": "^1.19.0",
     "randexp": "^0.5.3",
     "@babel/core": "^7.9.0",
