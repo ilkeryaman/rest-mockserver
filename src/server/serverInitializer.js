@@ -5,7 +5,7 @@ import fs from 'fs';
 import logger from '../log/logger';
 import configuration from '../configuration';
 
-const port = configuration.port;
+const port = process.env.PORT || configuration.port;
 const app = express();
 app.use(bodyParser.json());
 
