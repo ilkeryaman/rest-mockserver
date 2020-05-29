@@ -8,6 +8,7 @@ import configuration from '../configuration';
 const port = process.env.PORT || configuration.port;
 const app = express();
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 class ServerInitializer {
     startListening(routes) {
