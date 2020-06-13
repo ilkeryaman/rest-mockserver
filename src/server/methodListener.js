@@ -103,10 +103,14 @@ function returnHttpStatusWithCode(res, route, statusCode) {
 }
 
 function interceptorFunction(req, res, route, func) {
-  req.requestTime = new Date();
-  lookForPredefinedResponse(req, res, route, func);
-  res.responseTime = new Date();
-  logger.displayRequestInformation(req, res);
+  try {
+    req.requestTime = new Date();
+    lookForPredefinedResponse(req, res, route, func);
+    res.responseTime = new Date();
+    logger.displayRequestInformation(req, res);
+  } catch{
+    res.sendStatus(500);
+  }
 }
 
 function lookForPredefinedResponse(req, res, route, func) {
