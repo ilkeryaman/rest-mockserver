@@ -100,8 +100,7 @@ For example, lets assume that you are querying the following GET method https://
             "httpStatusCode": 200,
             "file": "./petstore/file2.json"
         }
-    },
-    ...
+    }
 }
 ```
 
