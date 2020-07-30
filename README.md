@@ -119,8 +119,7 @@ In above;
 [
     "./exampleConfiguration/configuration.json",
     "./address/configuration.json",
-    "./{your own mock folder}/{your own configuration file}",
-    ...
+    "./{your own mock folder}/{your own configuration file}"
 ]
 ```
 **2) Creating Your Custom Business**
@@ -154,11 +153,9 @@ const getAddress = {
                 });
         }
 }
-...
 
 const addressRoutes = [
-    getAddress,
-    ...
+    getAddress
 ];
 
 export default addressRoutes;
